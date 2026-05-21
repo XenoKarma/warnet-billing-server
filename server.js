@@ -5,6 +5,7 @@ const app = require("./src/app");
 const db = require("./src/database/db");
 const socketHandler = require("./src/sockets");
 const billingService = require("./src/services/billingService");
+const authController = require("./src/controllers/authController");
 
 const PORT = process.env.PORT || 3000;
 
@@ -39,6 +40,9 @@ db.query("SELECT 1")
     } catch (err) {
       // Jika kolom sudah ada, MySQL akan mengembalikan error. Kita abaikan saja.
     }
+
+    // Inisialisasi tabel users + seed admin default
+    await authController.init()
 
     server.listen(PORT, () => {
       console.log(`Server berjalan di port ${PORT}`);
